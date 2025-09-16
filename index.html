@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF转图片工具</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF转图片工具</h1>
+            <p>支持PDF转换为单页图片或长图合成</p>
+        </header>
+
+        <main>
+            <!-- 文件上传区域 -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <h3>点击或拖拽上传PDF文件</h3>
+                        <p>支持的文件格式：PDF</p>
+                        <p>最大文件大小：50MB</p>
+                    </div>
+                    <input type="file" id="fileInput" accept=".pdf" hidden>
+                </div>
+            </section>
+
+            <!-- 转换设置 -->
+            <section class="settings-section" id="settingsSection" style="display: none;">
+                <h2>转换设置</h2>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="outputFormat">输出格式：</label>
+                        <select id="outputFormat">
+                            <option value="separate">分页图片</option>
+                            <option value="long">长图合成</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="imageFormat">图片格式：</label>
+                        <select id="imageFormat">
+                            <option value="png">PNG</option>
+                            <option value="jpeg">JPEG</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="quality">图片质量：</label>
+                        <input type="range" id="quality" min="0.1" max="2" step="0.1" value="1.5">
+                        <span id="qualityValue">1.5x</span>
+                    </div>
+                </div>
+                <button id="convertBtn" class="convert-btn">开始转换</button>
+            </section>
+
+            <!-- 进度显示 -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <h2>转换进度</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">准备中...</p>
+            </section>
+
+            <!-- 预览和下载 -->
+            <section class="result-section" id="resultSection" style="display: none;">
+                <h2>转换结果</h2>
+                <div class="result-actions">
+                    <button id="downloadBtn" class="download-btn">下载图片</button>
+                    <button id="resetBtn" class="reset-btn">重新转换</button>
+                </div>
+                <div class="preview-area" id="previewArea">
+                    <!-- 预览图片将在这里显示 -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 PDF转图片工具 - 简洁高效的PDF处理工具</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
