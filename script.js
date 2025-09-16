@@ -137,6 +137,12 @@ function updateQualityDisplay() {
     qualityValue.textContent = quality.value + 'x';
 }
 
+// 获取不含扩展名的文件名
+function getFileNameWithoutExtension(filename) {
+    const lastDotIndex = filename.lastIndexOf('.');
+    return lastDotIndex !== -1 ? filename.slice(0, lastDotIndex) : filename;
+}
+
 // 开始转换
 async function startConversion() {
     if (!currentFile) {
@@ -193,6 +199,8 @@ async function convertPDFToImages(file) {
 
 // 生成分页图片
 async function generateSeparateImages(pdf, totalPages, scale, format) {
+    const pdfBaseName = getFileNameWithoutExtension(currentFile.name);
+    
     for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
         updateProgress(10 + (pageNum / totalPages) * 80, `正在转换第${pageNum}页，共${totalPages}页...`);
         
@@ -202,7 +210,7 @@ async function generateSeparateImages(pdf, totalPages, scale, format) {
         const imageData = canvas.toDataURL(`image/${format}`, format === 'jpeg' ? 0.9 : undefined);
         convertedImages.push({
             data: imageData,
-            name: `page_${pageNum.toString().padStart(3, '0')}.${format}`,
+            name: `${pdfBaseName}_page_${pageNum.toString().padStart(3, '0')}.${format}`,
             canvas: canvas
         });
     }
@@ -253,10 +261,11 @@ async function generateLongImage(pdf, totalPages, scale, format) {
     
     updateProgress(95, '正在生成最终图片...');
     
+    const pdfBaseName = getFileNameWithoutExtension(currentFile.name);
     const imageData = longCanvas.toDataURL(`image/${format}`, format === 'jpeg' ? 0.9 : undefined);
     convertedImages.push({
         data: imageData,
-        name: `long_image.${format}`,
+        name: `${pdfBaseName}_long_image.${format}`,
         canvas: longCanvas
     });
     
